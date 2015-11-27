@@ -1,0 +1,123 @@
+﻿<div class="modal-header">
+    <h2>ADMIN MODAL</h2>
+    <h3 class="modal-title">{{items.name}}<span ng-if="items.startDate || items.endDate"> ({{items.startDate | date:'dd.MM.yyyy'}} - {{items.endDate|date:'dd.MM.yyyy'}})</span></h3>
+    <div class="well well-lg">
+        <!-- DATES -->
+        <div class="row">
+            <div class="col-md-6">
+                Startdate:
+                <p class="input-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="dd.MM.yyyy" ng-model="items.startDate" is-open="status.opened1" datepicker-options="dateOptions" close-text="Close" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </p>
+                <button class="form-control" ng-click="items.startDate = ''">Remove</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                Enddate:
+                <p class="input-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="dd.MM.yyyy" ng-model="items.endDate" is-open="status.opened2"  datepicker-options="dateOptions" close-text="Close" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </p>
+                <button class="form-control" ng-click="items.endDate = ''">Remove</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-body">
+    <!-- PROFILE IMGS -->
+    <div class="row">
+        <div class="well well-lg col-md-6">
+            <div ng-show="items.nameimg">
+                <img img-fix-orientation="items.nameimg" class="img-circle" ng-src="{{items.nameimg}}"><a href="#" ng-click="removeImg('nameimg')">Slett bilde</a>
+            </div>
+            <button class="form-control" ngf-select="upload($file, 'nameimg', true)">Upload and set image</button>
+            <h4 class="personname">Navn: {{items.name}}</h4>
+            <input type="text" ng-model="items.name" />
+        </div>
+        <div class="well well-lg col-md-6">
+            <div ng-show="items.partnerimg">
+                <img img-fix-orientation="items.partnerimg" class="img-circle" ng-src="{{items.partnerimg}}"><a href="#" ng-click="removeImg('partnerimg')">Slett bilde</a>
+            </div>
+            <button class="form-control" ngf-select="upload($file, 'partnerimg', true)">Upload and set image</button>
+            <h4 class="personname">Partner: {{items.partner}}</h4>
+            <input type="text" ng-model="items.partner" />
+        </div>
+    </div>
+    <button type="button" class="btn btn-default" ng-init="isCollapsed = true" ng-click="isCollapsed = !isCollapsed">Mer info</button>
+    <div uib-collapse="isCollapsed">
+        <div class="row">
+            <!-- CHILDREN -->
+            <div class="well well-lg col-md-6">
+                <h4>Barn:</h4>
+                <ul>
+                    <li ng-repeat="child in items.children track by $index" >
+                        Click to remove: 
+                        <a ng-click="deleteChild($index)">{{ child.name }}</a>
+                    </li>
+                </ul>
+                <input class="form-control" type="text" ng-model="newchildname" />
+                <button class="form-control" ng-click="addChild(newchildname)">Add child of name above</button>
+            </div>
+            <!-- PARENT -->
+            <div class="well well-lg col-md-6" ng-if="!items.parent">
+                <h4>Add parent:</h4>
+                <input class="form-control" type="text" ng-model="newparentname" />
+                <button class="form-control" ng-click="addParent(newparentname)">Add parent with the name above</button>
+            </div>
+            <!-- STORY -->
+            <div class="well well-lg col-md-6">
+                <h4>Historie:</h4>
+                <button type="button" class="btn btn-default" ng-click="showStoryEdit = !showStoryEdit">Show and edit stories</button>
+                <div uib-collapse="!showStoryEdit">
+                    <div ng-repeat="story in items.story track by $index">
+                        <h4>{{story.heading}}</h4>
+                        <p>{{story.text}}</p>
+                        <button type="button" class="btn btn-default" ng-click="isStoryCollapsed[$index] = !isStoryCollapsed[$index]">Edit story</button>
+                        <div uib-collapse="!isStoryCollapsed">
+                            <input class="form-control" type="text" ng-model="story.heading" />
+                            <textarea class="form-control" ng-model="story.text"></textarea>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-default" ng-click="isStoryCollapsedNew = !isStoryCollapsedNew">Add new story</button>
+                    <div uib-collapse="!isStoryCollapsedNew">
+                        <input class="form-control" type="text" ng-model="newstory.heading" />
+                        <textarea class="form-control" ng-model="newstory.text"></textarea>
+                        <button type="button" class="btn btn-default" ng-click="addStory(newstory.heading, newstory.text)">Post story</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- IMAGES -->
+        <div class="row">
+            <uib-carousel interval="myInterval" no-wrap="noWrapSlides">
+                <uib-slide ng-repeat="slide in slides track by $index" active="slide.active">
+                    <img img-fix-orientation="slide.image" ng-src="{{slide.image}}" style="margin:auto;">
+                    <div class="carousel-caption">
+                        <h4>{{slide.title}}</h4>
+                        <p>{{slide.label}}</p>
+                        <a ng-click="deleteImgFromCarousel($index)" href="#">REMOVE IMAGE</a>
+                    </div>
+                </uib-slide>
+            </uib-carousel>
+            <div class="form-control" ng-repeat="slide in slides track by $index">
+                <a ng-click="deleteImgFromCarousel($index)" href="#">REMOVE IMAGE: {{slide.title}} - {{slide.label}}</a>
+            </div>
+            <div class="col-md-6">
+                <input placeholder="Image Title" ng-model="slideTitle" class="form-control" />
+                <input placeholder="Image Text" ng-model="slideText" class="form-control" />
+                <button class="form-control" ngf-select="upload($file, 'slide', false, slideTitle, slideText)">Upload and add image</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- OK BUTTON -->
+<div class="modal-footer">
+    <button class="btn btn-abort" type="button" ng-click="discard()">Forkast endringer</button>
+    <button class="btn btn-primary" type="button" ng-click="save()">Lagre</button>
+</div>

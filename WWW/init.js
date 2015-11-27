@@ -1,0 +1,1 @@
+﻿var app = angular.module('app', ['ngAnimate', 'ui.bootstrap', 'ngResource', 'ngFileUpload', 'cp.ng.fix-image-orientation']);

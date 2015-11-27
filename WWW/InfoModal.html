@@ -1,0 +1,59 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">{{items.name}}<span ng-if="items.startDate || items.endDate"> ({{items.startDate| date:'dd.MM.yyyy'}} - {{items.endDate| date:'dd.MM.yyyy'}})</span></h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="well well-lg col-md-6">
+            <div ng-if="items.nameimg">
+                <img class="img-circle" img-fix-orientation="items.nameimg" ng-src="{{items.nameimg}}">
+            </div>
+            <h4 class="personname">Navn: {{items.name}}</h4>
+        </div>
+        <div ng-if="items.partner" class="well well-lg col-md-6">
+            <div ng-if="items.partnerimg">
+                <img class="img-circle" img-fix-orientation="items.partnerimg" ng-src="{{items.partnerimg}}">
+            </div>
+            <h4 class="personname">Partner: {{items.partner}}</h4>
+        </div>
+    </div>
+    <button type="button" class="btn btn-default" ng-init="isCollapsed = true" ng-click="isCollapsed = !isCollapsed">Mer info</button>
+    <div uib-collapse="isCollapsed">
+        <div class="row">
+            <div class="well well-lg col-md-6" ng-if="items.children && items.children.length > 0">
+                <h4>Barn:</h4>
+                <ul>
+                    <li ng-repeat="child in items.children">
+                        {{ child.name }}
+                    </li>
+                </ul>
+            </div>
+            <div ng-if="items.story && items.story.length > 0" class="well well-lg col-md-6">
+                <div ng-repeat="story in items.story">
+                    <h4>{{story.heading}}</h4>
+                    <p>{{story.text}}</p>
+                </div>
+            </div>
+            <div ng-if="!items.story" class="well well-lg col-md-6">
+                Ingen historie er lagt inn for denne noden...
+                Dersom du har informasjon som kan legges til
+                er det fint om du tar kontakt med en administrator
+                slik at dette kan ordnes.
+
+            </div>
+        </div>
+        <div class="row" ng-if="items.images && items.images.length > 0">
+            <uib-carousel interval="myInterval" no-wrap="noWrapSlides">
+                <uib-slide ng-repeat="slide in slides" active="slide.active">
+                    <img img-fix-orientation="slide.image" ng-src="{{slide.image}}" style="margin:auto;">
+                    <div class="carousel-caption">
+                        <h4>{{slide.title}}</h4>
+                        <p>{{slide.label}}</p>
+                    </div>
+                </uib-slide>
+            </uib-carousel>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+</div>

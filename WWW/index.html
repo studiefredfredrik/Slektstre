@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+    <script src="vendor/d3.v3.min.js"></script>
+    <script src="vendor/angular.js"></script> 
+    <script src="/WWW/vendor/ng-file-upload.js"></script>
+    <script src="/WWW/vendor/ng-file-upload-shim.js"></script>
+    <script src="vendor/angular-animate.js"></script> 
+    <script src="vendor/angular-resource.js"></script> 
+    <link href="vendor/bootstrap-3.3.5-dist/css/bootstrap.css" rel="stylesheet">
+    <script src="vendor/angular-bootstrap/ui-bootstrap-tpls-0.14.3.js"></script> 
+    <link rel="stylesheet" href="StyleSheet.css" />
+    <script src="vendor/exif.js"></script>
+    <script src="vendor/angular-fix-image-orientation.js"></script>
+    <script src="init.js"></script> 
+    <script src="treeController.js"></script>
+    <script src="infoModalController.js"></script> 
+    <script src="adminModalController.js"></script> 
+</head>
+<body ng-app="app">
+    <navbar></navbar>
+    <div class="container">
+        <div ng-controller="treeController">
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <a class="navbar-brand" href="#">Slektstre</a>
+                        </div>
+                        <ul class="nav navbar-nav navbar-right" ng-show="adminIsAvailable">
+                            <li ng-show="usermode === 'admin'" ng-class="{active: size==0}" ng-click="setSize('small'); size=0;"><a href="#">Small </a></li>
+                            <li ng-show="usermode === 'admin'" ng-class="{active: size==1}" ng-click="setSize('medium'); size=1;"><a href="#">Medium </a></li>
+                            <li ng-show="usermode === 'admin'" ng-class="{active: size==2}" ng-click="setSize('large'); size=2;"><a href="#">Large </a></li>
+                            <li ng-class="{active: !(usermode === 'admin')}" ng-click="setUsermode('user');"><a href="#">Usermode </a></li>
+                            <li ng-class="{active: usermode === 'admin'}" ng-click="setUsermode('admin');"><a href="#">Adminmode</a></li>
+                            <li role="separator" class="divider"></li>
+                        </ul>                       
+                    </div>
+                </nav>
+            <div id="familyTreeSVG"></div>
+        </div>
+    </div>
+</body>
