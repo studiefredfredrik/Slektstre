@@ -13,9 +13,10 @@ It was done as a hobby project.
 3. Run an instance of MongoDB
 4. Change out the database configuration in config/database.js
 5. Change out auth keys in config/auth.js
-6. Add a file named %userhash%ISADMINUSER to \app\json with the word 'true' in it 
-	to enable admin mode for that user/userhash
-	example, if the userhash is:564cb81b5ffc654401ab0d05 then the file will be:
-	\app\json\564cb81b5ffc654401ab0d05ISADMINUSER
+6. There is a file named %userhash%ISADMINUSER in \app\json with the word 'false' in it. 
+To enable admin mode for that user/userhash change this word to 'true'.
+Example file name:
+\app\json\564cb81b5ffc654401ab0d05ISADMINUSER
+The userfiles is generated on a users first login.
 7. Launch: `node server.js`
 8. Page hosted at: `http://localhost:10080`
