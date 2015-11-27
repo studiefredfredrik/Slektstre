@@ -194,20 +194,48 @@ module.exports = function(app, passport) {
 	    var path = require("path");
 	    var fs = require('fs');
 	    var isAdminUser = false;
-	    fs.readFile(path.resolve(__dirname) + "/json/" + req.user._id + "ISADMINUSER", 'utf8', function (err, data) {
-	        if (!err) {
-	            if (data == 'true') isAdminUser = true;
-	        };
-	        fs.readFile(path.resolve(__dirname)+ "/json/" + req.user._id, 'utf8', function (err, data) {
-	            if (err) {
-	                var data = { isAdminUser: 'adminuser' };
-	                res.send(200, data);
-	                return console.log(err);
-	            }
-	            var r = JSON.parse(data);
-	            r.isAdminUser = isAdminUser;
-	            res.send(r);
-	        });
+	    fs.exists(path.resolve(__dirname) + "/json/" + req.user._id, function (exists) {
+	        if (exists) {
+	            fs.readFile(path.resolve(__dirname) + "/json/" + req.user._id + "ISADMINUSER", 'utf8', function (err, data) {
+	                if (!err) {
+	                    if (data == 'true') isAdminUser = true;
+	                };
+	                fs.readFile(path.resolve(__dirname)+ "/json/" + req.user._id, 'utf8', function (err, data) {
+	                    if (err) {
+	                        var data = { isAdminUser: 'adminuser' };
+	                        res.send(200, data);
+	                        return console.log(err);
+	                    }
+	                    var r = JSON.parse(data);
+	                    r.isAdminUser = isAdminUser;
+	                    res.send(r);
+	                });
+	            });
+	        } 
+	        else {
+	            fs.writeFile(path.resolve(__dirname) + "/json/" + req.user._id, JSON.stringify({
+                    name: 'Click here to start building a tree, If you are logged in as',
+                    children: [{ name: 'an ADMIN' }],
+                    width: 1000,
+                    height: 1000,
+	            }));
+	            fs.writeFile(path.resolve(__dirname) + "/json/" + req.user._id + "ISADMINUSER", "false");
+	            fs.readFile(path.resolve(__dirname) + "/json/" + req.user._id + "ISADMINUSER", 'utf8', function (err, data) {
+	                if (!err) {
+	                    if (data == 'true') isAdminUser = true;
+	                };
+	                fs.readFile(path.resolve(__dirname) + "/json/" + req.user._id, 'utf8', function (err, data) {
+	                    if (err) {
+	                        var data = { isAdminUser: 'adminuser' };
+	                        res.send(200, data);
+	                        return console.log(err);
+	                    }
+	                    var r = JSON.parse(data);
+	                    r.isAdminUser = isAdminUser;
+	                    res.send(r);
+	                });
+	            });
+	        }
 	    });
 	});
 
