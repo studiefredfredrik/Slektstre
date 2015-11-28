@@ -19,8 +19,9 @@
     };
 });
 
-angular.module('app').controller('AdminModalInstanceCtrl', function ($scope, $uibModalInstance, items,Upload) {
+angular.module('app').controller('AdminModalInstanceCtrl', function ($scope, $uibModalInstance, items, Upload, $log) {
     $scope.items = items;
+    var self = this;
 
     $scope.save = function () {
         $uibModalInstance.close(true);
@@ -128,19 +129,19 @@ angular.module('app').controller('AdminModalInstanceCtrl', function ($scope, $ui
             data: { file: file }
         }).then(function (resp) {
             if (overwrite === true) {
-                if (item === 'nameimg') $scope.items.nameimg = resp.data.replace("WWW\\", "");
-                if (item === 'partnerimg') $scope.items.partnerimg = resp.data.replace("WWW\\", "");
+                if (item === 'nameimg') $scope.items.nameimg = self.fileNameCleaner(resp.data);
+                if (item === 'partnerimg') $scope.items.partnerimg = self.fileNameCleaner(resp.data);
             }
             else { // Slides
                 if (!$scope.items.images) $scope.items.images = [{
-                    url: resp.data.replace("WWW\\", ""),
+                    url: self.fileNameCleaner(resp.data),
                     title: title,
                     label: text
                 }];
                 else {
                     $scope.items.images.push(
                         {
-                            url: resp.data.replace("WWW\\", ""),
+                            url: self.fileNameCleaner(resp.data),
                             title: title,
                             label: text
                         });
@@ -165,6 +166,13 @@ angular.module('app').controller('AdminModalInstanceCtrl', function ($scope, $ui
             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             $log.info('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
         });
+    };
+
+    this.fileNameCleaner = function (filename) {
+        filename = filename.replace("WWW/", "");
+        filename = filename.replace("WWW\\", "");
+
+        return filename;
     };
 
 
