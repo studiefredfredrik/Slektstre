@@ -1,6 +1,4 @@
-// server.js
-
-// set up ======================================================================
+// setup ======================================================================
 var express  = require('express');
 var app      = express();
 var port     = process.env.PORT || 10080;
@@ -11,36 +9,31 @@ var morgan       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session = require('express-session');
-
 var multer = require('multer'); // File upload
 var done = false;
-
 var configDB = require('./config/database.js');
 
 // configuration ===============================================================
 mongoose.connect(configDB.url); // connect to our database
 require('./config/passport')(passport); // pass passport for configuration
 
-// set up our express application
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.json()); // get information from html forms
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.set('view engine', 'ejs'); // set up ejs for templating
 
 // required for passport
-app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+app.use(session({ secret: 'slektstresessionsecret' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
-// File upload stuff - start
+// File upload
 var newFilename = 'error maybe';
 var newFilePath = 'error maybe';
 var fileDestinationFolder = './WWW/uploads/';
 
-// File upload
 app.use(multer({
     dest: fileDestinationFolder,
     rename: function (fieldname, filename) {
@@ -57,7 +50,7 @@ app.use(multer({
     }
 }));
 
-// routes ======================================================================
+// routes static  ======================================================================
 app.post('/api/photo', function (req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     if (done == true) {
