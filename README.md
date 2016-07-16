@@ -33,3 +33,6 @@ The userfiles is generated on a users first login.
 
 * Detail view expanded
 ![Detail view expanded](https://raw.githubusercontent.com/studiefredfredrik/Slektstre-beta/master/screencaps/Detail-view-expanded.PNG)
+
+#License
+Supplied under the MIT license, which can be viewed in the LICENSE file.
