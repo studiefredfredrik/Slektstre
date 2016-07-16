@@ -20,3 +20,16 @@ Example file name:
 The userfiles is generated on a users first login.
 7. Launch: `node server.js`
 8. Page hosted at: `http://localhost:10080`
+
+## Screenshots
+-Overview medium size
+![Overview medium size](https://raw.githubusercontent.com/studiefredfredrik/Slektstre-beta/master/screencaps/Overview-medium.PNG)
+
+-Overview small size
+![Overview small size](https://raw.githubusercontent.com/studiefredfredrik/Slektstre-beta/master/screencaps/Overview-small.PNG)
+
+-Detail view small
+![Detail view small](https://raw.githubusercontent.com/studiefredfredrik/Slektstre-beta/master/screencaps/Detail-view-small.PNG)
+
+-Detail view expanded
+![Detail view expanded](https://raw.githubusercontent.com/studiefredfredrik/Slektstre-beta/master/screencaps/Detail-view-expanded.PNG)
